@@ -1,0 +1,5 @@
+README.html
+*.readelf
+Main
+*.o
+_*

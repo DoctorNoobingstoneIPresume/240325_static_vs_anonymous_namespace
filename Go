@@ -1,0 +1,63 @@
+#!/bin/bash
+set -e -o pipefail
+
+Main ()
+{
+	(which asciidoctor && rm -f 'README.html' && asciidoctor -b html5 'README.adoc' -o 'README.html') || true
+	
+	local -a readelf_options=(
+		--wide
+		--headers
+		--symbols
+	)
+	
+	local -a link_options=(
+		-g
+	)
+	
+	local -a compile_options=(
+		-std='gnu++11'
+		-g
+	)
+	
+	local module0='Main'
+	rm -f "${module0}.readelf" "${module0}"
+	
+	local -a units=(
+		'Main'
+		'g'
+	)
+	
+	local unit
+	
+	local objects=()
+	{
+		for unit in "${units[@]}"; do
+			local object="${unit}.cpp.o"
+			objects+=("${object}")
+			rm -f "${object}.readelf" "${object}"
+		done
+	}
+	
+	if ((1)); then
+		for unit in "${units[@]}"; do
+			local object="${unit}.cpp.o"
+			g++ "${compile_options[@]}" -c "${unit}.cpp" -o "${object}"
+			readelf "${readelf_options[@]}" "${object}" >"${unit}.cpp.readelf"
+		done
+	fi
+	
+	if ((0)); then
+		local -a object
+		for object in "${objects[@]}"; do
+			printf '%s\n' "${object}"
+		done
+	fi
+	
+	if ((1)); then
+		g++ "${link_options[@]}" "${objects[@]}" -o "${module0}"
+		readelf "${readelf_options[@]}" "${module0}" >"${module0}.readelf"
+	fi
+}
+
+Main "$@"

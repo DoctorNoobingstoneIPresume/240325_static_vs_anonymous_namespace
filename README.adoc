@@ -1,0 +1,17 @@
+= `static` vs anonymous namespace
+:docinfo: shared
+:date:    2024-03-25
+:toc:     macro
+
+== README
+
+In C++, is there a difference between `static` and anonymous namespace ?
+
+We can run `./Go` in order to build the project
+and in order to also obtain the analysis of object files and linked module (via `readelf ... --symbols`).
+
+We can then see, in `g.cpp.readelf`, that all of `f1`, `f2`, `f3` have internal linkage (`"LOCAL"`).
+
+== Contact/support:
+
+adder_2003@yahoo.com or DoctorNoobingstoneIPresume@gmail.com -- Thank you so !! (-:
